@@ -1,16 +1,13 @@
 "use strict";
-
-var camera, scene, renderer;
-var windowScale;
-var cameraControls;
+var THREE, Coordinates, camera, scene, renderer, cameraControls;
 var clock = new THREE.Clock();
 
 function drawGoldCube() {
     var cube;
     var cubeSizeLength = 100;
-    var goldColor = "#FFDF00";
+    var white = "#000";
     var showFrame = true;
-    var wireMaterial = new THREE.MeshBasicMaterial( { color: goldColor, wireframe: showFrame } ) ;
+    var wireMaterial = new THREE.MeshBasicMaterial( { color: white, wireframe: showFrame } ) ;
     var cubeGeometry = new THREE.CubeGeometry(cubeSizeLength, cubeSizeLength, cubeSizeLength);
     cube = new THREE.Mesh( cubeGeometry, wireMaterial );
     cube.position.x = 0;    // centered at origin
@@ -28,9 +25,9 @@ function init() {
     var canvasRatio = canvasWidth / canvasHeight;
     // SCENE
     scene = new THREE.Scene();
-    scene.fog = new THREE.Fog( 0x808080, 2000, 4000 );
+    scene.fog = new THREE.Fog( 0x02B3E4 , 2000, 4000 );
     // LIGHTS
-    scene.add( new THREE.AmbientLight( 0x222222 ) );
+    scene.add( new THREE.AmbientLight( 0x02B3E4 ) );
     // RENDERER
     renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.gammaInput = true;
@@ -68,4 +65,4 @@ window.onload = function() {
     init();
     drawGoldCube();
     animate();
-}
+};
