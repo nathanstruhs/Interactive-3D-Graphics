@@ -45,7 +45,9 @@ function init() {
 
 function createBall() {
 	// Do not change the color itself, change the material and use the ambient and diffuse components.
-	var material = new THREE.MeshBasicMaterial( { color: 0x80FC66, shading: THREE.FlatShading } );
+	var material = new THREE.MeshLambertMaterial( { color: 0x03AEDE, shading: THREE.FlatShading } ); 
+    var ka = 0.1;
+    material.ambient.setRGB( material.color.r * ka, material.color.g * ka, material.color.b * ka );
 	var sphere = new THREE.Mesh( new THREE.SphereGeometry( 400, 64, 32 ), material );
 	return sphere;
 }
@@ -62,8 +64,8 @@ function fillScene() {
 	scene.add( ball );
 
 	//Coordinates.drawGround({size:1000});
-	//Coordinates.drawGrid({size:1000,scale:0.01});
-	//Coordinates.drawAllAxes({axisLength:500,axisRadius:1,axisTess:4});
+	Coordinates.drawGrid({size:1000,scale:0.01});
+	Coordinates.drawAllAxes({axisLength:500,axisRadius:1,axisTess:4});
 }
 
 function addToDOM() {
@@ -88,12 +90,15 @@ function render() {
 
 }
 
-try {
-	init();
-	fillScene();
-	addToDOM();
-	animate();
-} catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
+window.onload = function() {
+    try {
+    	init();
+    	fillScene();
+    	addToDOM();
+    	animate();
+    } catch(e) {
+    	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    	$('#container').append(errorReport+e);
+    }
 }
+
