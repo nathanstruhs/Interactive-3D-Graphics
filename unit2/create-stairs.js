@@ -42,23 +42,28 @@ function createStairs() {
 	var stepHorizontal = new THREE.CubeGeometry(stepWidth, stepThickness, horizontalStepDepth);
 	var stepMesh;
 
-	// Make and position the vertical part of the step
-	stepMesh = new THREE.Mesh( stepVertical, stepMaterialVertical );
-	// The position is where the center of the block will be put.
-	// You can define position as THREE.Vector3(x, y, z) or in the following way:
-	stepMesh.position.x = 0;			// centered at origin
-	stepMesh.position.y = verticalStepHeight/2;	// half of height: put it above ground plane
-	stepMesh.position.z = 0;			// centered at origin
-	scene.add( stepMesh );
+    var riserHeight = verticalStepHeight + stepThickness;
+    var riserDepth = horizontalStepDepth - stepThickness;
 
-	// Make and position the horizontal part
-	stepMesh = new THREE.Mesh( stepHorizontal, stepMaterialHorizontal );
-	stepMesh.position.x = 0;
-	// Push up by half of horizontal step's height, plus vertical step's height
-	stepMesh.position.y = stepThickness/2 + verticalStepHeight;
-	// Push step forward by half the depth, minus half the vertical step's thickness
-	stepMesh.position.z = horizontalStepDepth/2 - stepHalfThickness;
-	scene.add( stepMesh );
+    for (var stepPair = 0; stepPair < 6; stepPair++) {
+    	// Make and position the vertical part of the step
+    	stepMesh = new THREE.Mesh( stepVertical, stepMaterialVertical );
+    	// The position is where the center of the block will be put.
+    	// You can define position as THREE.Vector3(x, y, z) or in the following way:
+    	stepMesh.position.x = 0;			// centered at origin
+    	stepMesh.position.y = (verticalStepHeight/2) + (stepPair * riserHeight);	// half of height: put it above ground plane
+    	stepMesh.position.z = stepPair * riserDepth;			// centered at origin
+    	scene.add( stepMesh );
+
+    	// Make and position the horizontal part
+    	stepMesh = new THREE.Mesh( stepHorizontal, stepMaterialHorizontal );
+    	stepMesh.position.x = 0;
+    	// Push up by half of horizontal step's height, plus vertical step's height
+    	stepMesh.position.y = stepThickness/2 + verticalStepHeight + (stepPair * riserHeight);
+    	// Push step forward by half the depth, minus half the vertical step's thickness
+    	stepMesh.position.z = (horizontalStepDepth/2 - stepHalfThickness) + (stepPair*riserDepth);
+    	scene.add( stepMesh );
+    }
 }
 
 function createCup() {
@@ -192,13 +197,14 @@ function setupGui() {
 }
 
 
-
-try {
-	init();
-	setupGui();
-	addToDOM();
-	animate();
-} catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
+window.onload = function() {
+    try {
+    	init();
+    	setupGui();
+    	addToDOM();
+    	animate();
+    } catch(e) {
+    	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    	$('#container').append(errorReport+e);
+    }
 }

@@ -57,6 +57,7 @@ function init() {
 function createSupport() {
 
 	var cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xF07020 } );
+    var legMaterial = new THREE.MeshLambertMaterial( { color: 0xFDFDFD } );
 	// base
 	var cube;
 	cube = new THREE.Mesh(
@@ -76,29 +77,76 @@ function createSupport() {
 
 	// left leg
 	cube = new THREE.Mesh(
-		new THREE.CubeGeometry( 64, 334+52, 6 ), cubeMaterial );
+		new THREE.CubeGeometry( 64, 334+52, 6 ), legMaterial );
 	cube.position.x = 0;	// centered on origin along X
 	cube.position.y = (334+52)/2;
 	cube.position.z = 77 + 6/2;	// offset 77 + half of depth 6/2
 	scene.add( cube );
 
 	// right foot
+    cube = new THREE.Mesh( new THREE.CubeGeometry (20+64+110, 52, 6), cubeMaterial);
+
+    cube.position.x = -45;
+    cube.position.y = 52/2;
+    cube.position.z = -(77 + 6/2); // offset 77 + half of depth 6/2
+    scene.add( cube );
 
 	// right leg
+    cube = new THREE.Mesh(
+        new THREE.CubeGeometry( 64, 334+52, 6 ), legMaterial );
+    cube.position.x = 0;    // centered on origin along X
+    cube.position.y = (334+52)/2;
+    cube.position.z = -(77 + 6/2); // offset 77 + half of depth 6/2
+    scene.add( cube );
 
 }
 
 // Body of the bird - body and the connector of body and head
 function createBody() {
 	var sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xA00000 } );
+    var sphere;
+    sphere = new THREE.Mesh( new THREE.SphereGeometry( 58, 32, 16 ), sphereMaterial )
+    sphere.position.x = 0;
+    sphere.position.y = 160;
+    sphere.position.z = 0;
+    scene.add( sphere );
+
+
 	var cylinderMaterial = new THREE.MeshLambertMaterial( { color: 0x0000D0 } );
+    var cylinder;
+    cylinder = new THREE.Mesh( new THREE.CylinderGeometry( 24, 24, 390, 32 ), cylinderMaterial )
+    cylinder.position.x = 0;
+    cylinder.position.y = 160 + 390/2;
+    cylinder.position.z = 0;
+    scene.add( cylinder );
 
 }
 
 // Head of the bird - head + hat
 function createHead() {
 	var sphereMaterial = new THREE.MeshLambertMaterial( { color: 0xA00000 } );
+    var sphere;
+    sphere = new THREE.Mesh( new THREE.SphereGeometry( 58, 32, 16 ), sphereMaterial )
+    sphere.position.x = 0;
+    sphere.position.y = 550;
+    sphere.position.z = 0;
+    scene.add( sphere );
+
+    // bill o da hat
 	var cylinderMaterial = new THREE.MeshLambertMaterial( { color: 0x0000D0 } );
+    var cylinder;
+    cylinder = new THREE.Mesh( new THREE.CylinderGeometry( 142/2, 142/2, 10, 32 ), cylinderMaterial )
+    cylinder.position.x = 0;
+    cylinder.position.y = 590;
+    cylinder.position.z = 0;
+    scene.add( cylinder );
+    
+    // top o da hat
+    cylinder = new THREE.Mesh( new THREE.CylinderGeometry( 40, 40, 70, 32 ), cylinderMaterial )
+    cylinder.position.x = 0;
+    cylinder.position.y = 630;
+    cylinder.position.z = 0;
+    scene.add( cylinder );
 
 }
 
@@ -198,12 +246,14 @@ function setupGui() {
 	gui.add( effectController, "newAxes" ).name("Show axes");
 }
 
-try {
-	init();
-	setupGui();
-	addToDOM();
-	animate();
-} catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
+window.onload = function() {
+    try {
+    	init();
+    	setupGui();
+    	addToDOM();
+    	animate();
+    } catch(e) {
+    	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    	$('#container').append(errorReport+e);
+    }
 }

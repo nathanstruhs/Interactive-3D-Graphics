@@ -21,7 +21,7 @@ function someObject(material) {
 	geometry.vertices.push( new THREE.Vector3( 3, 7, 0 ) );
 
 	geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
-	geometry.faces.push( new THREE.Face3( 2, 0, 3 ) );
+	geometry.faces.push( new THREE.Face3( 0, 2, 3 ) );
 
 	var mesh = new THREE.Mesh( geometry, material );
 
@@ -83,14 +83,16 @@ function render() {
 
 
 // Main body of the script
-try {
-	init();
-	showGrids();
-	var material = new THREE.MeshBasicMaterial( { color: 0xF6831E, side: THREE.FrontSide } );
-	someObject(material);
-	addToDOM();
-	render();
-} catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
+window.onload = function() {
+    try {
+    	init();
+    	showGrids();
+    	var material = new THREE.MeshBasicMaterial( { color: 0xF6831E, side: THREE.FrontSide } );
+    	someObject(material);
+    	addToDOM();
+    	render();
+    } catch(e) {
+    	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    	$('#container').append(errorReport+e);
+    }
 }

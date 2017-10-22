@@ -26,9 +26,15 @@ function exampleTriangle() {
 function drawSquare(x1, y1, x2, y2) {
 
 	var square = new THREE.Geometry();
-	// Your code goes here
+	square.vertices.push( new THREE.Vector3( x1, y1, 0 ) );
+    square.vertices.push( new THREE.Vector3( x2, y1, 0 ) );
+    square.vertices.push( new THREE.Vector3( x2, y2, 0 ) );
+    square.vertices.push( new THREE.Vector3( x1, y2, 0 ) );
 
 	// don't forget to return the geometry!	The following line is required!
+    square.faces.push( new THREE.Face3( 1,2,3 ) );
+    square.faces.push( new THREE.Face3( 0,1,3 ) );
+
 	return square;
 }
 
@@ -83,24 +89,26 @@ function showGrids() {
 	Coordinates.drawAxes({axisLength:11,axisOrientation:"y",axisRadius:0.04});
 }
 
-try {
-	init();
-	showGrids();
-	// creating and adding the triangle to the scene
-	var triangleMaterial = new THREE.MeshBasicMaterial( { color: 0x2685AA, side: THREE.DoubleSide } );
-	var triangleGeometry = exampleTriangle();
-	var triangleMesh = new THREE.Mesh( triangleGeometry, triangleMaterial );
-	scene.add(triangleMesh);
-	// creating and adding your square to the scene !
-	var square_material = new THREE.MeshBasicMaterial( { color: 0xF6831E, side: THREE.DoubleSide } );
-	var square_geometry = drawSquare(3,5,7,9);
-	var square_mesh = new THREE.Mesh(square_geometry, square_material);
-	scene.add(square_mesh);
-	addToDOM();
-	render();
-} catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
-}
+window.onload = function() {
+    try {
+    	init();
+    	showGrids();
+    	// creating and adding the triangle to the scene
+    	var triangleMaterial = new THREE.MeshBasicMaterial( { color: 0x2685AA, side: THREE.DoubleSide } );
+    	var triangleGeometry = exampleTriangle();
+    	var triangleMesh = new THREE.Mesh( triangleGeometry, triangleMaterial );
+    	scene.add(triangleMesh);
 
+    	// creating and adding your square to the scene !
+    	var square_material = new THREE.MeshBasicMaterial( { color: 0xF6831E, side: THREE.DoubleSide } );
+    	var square_geometry = drawSquare(3,5,7,9);
+    	var square_mesh = new THREE.Mesh(square_geometry, square_material);
+    	scene.add(square_mesh);
+    	addToDOM();
+    	render();
+    } catch(e) {
+    	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    	$('#container').append(errorReport+e);
+    }
+}
 

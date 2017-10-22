@@ -22,8 +22,8 @@ function PolygonGeometry(sides, location, radius) {
 		// Add 90 degrees so we start at +Y axis, rotate counterclockwise around
 		var angle = (Math.PI/2) + (pt / sides) * 2 * Math.PI;
 
-		var x = Math.cos(angle) + location.x;
-		var y = Math.sin(angle) + location.y;
+		var x = radius * Math.cos(angle) + location.x;
+		var y = radius * Math.sin(angle) + location.y;
 
 		// Save the vertex location
 		geo.vertices.push( new THREE.Vector3( x, y, 0.0 ) );
@@ -90,16 +90,18 @@ function render() {
 }
 
 // Main body of the script
-try {
-	init();
-	showGrids();
-	var geo = PolygonGeometry(9, new THREE.Vector3( 5, 5, 0 ), 4);
-	var material = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.FrontSide } );
-	var mesh = new THREE.Mesh( geo, material );
-	scene.add( mesh );
-	addToDOM();
-	render();
-} catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
+window.onload = function() {
+    try {
+    	init();
+    	showGrids();
+    	var geo = PolygonGeometry(9, new THREE.Vector3( 5, 5, 0 ), 4);
+    	var material = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.FrontSide } );
+    	var mesh = new THREE.Mesh( geo, material );
+    	scene.add( mesh );
+    	addToDOM();
+    	render();
+    } catch(e) {
+    	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    	$('#container').append(errorReport+e);
+    }
 }

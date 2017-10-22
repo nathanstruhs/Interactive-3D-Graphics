@@ -25,7 +25,7 @@ function PolygonGeometry(sides, location) {
 		var y = Math.sin( angle );
 
 		// Save the vertex location
-		geo.vertices.push( new THREE.Vector3( x, y, 0.0 ) );
+		geo.vertices.push( new THREE.Vector3( x += location.x, y += location.y, 0.0 ) );
 	}
 
 	// generate faces
@@ -90,16 +90,18 @@ function render() {
 }
 
 // Main body of the script
-try {
-	init();
-	showGrids();
-	var geo = PolygonGeometry(6, new THREE.Vector3( 3, 4, 0 ));
-	var material = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.FrontSide } );
-	var mesh = new THREE.Mesh( geo, material );
-	scene.add( mesh );
-	addToDOM();
-	render();
-} catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
+window.onload = function() {
+    try {
+    	init();
+    	showGrids();
+    	var geo = PolygonGeometry(6, new THREE.Vector3( 3, 4, 0 ));
+    	var material = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.FrontSide } );
+    	var mesh = new THREE.Mesh( geo, material );
+    	scene.add( mesh );
+    	addToDOM();
+    	render();
+    } catch(e) {
+    	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    	$('#container').append(errorReport+e);
+    }
 }

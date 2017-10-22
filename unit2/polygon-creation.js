@@ -17,8 +17,7 @@ function PolygonGeometry(sides) {
 	var geo = new THREE.Geometry();
 
 	// generate vertices
-	for ( var pt = 0 ; pt < sides; pt++ )
-	{
+	for ( var pt = 0 ; pt < sides; pt++ ) {
 		// Add 90 degrees so we start at +Y axis, rotate counterclockwise around
 		var angle = (Math.PI/2) + (pt / sides) * 2 * Math.PI;
 
@@ -27,10 +26,14 @@ function PolygonGeometry(sides) {
 
 		// YOUR CODE HERE
 		//Save the vertex location - fill in the code
+        geo.vertices.push( new THREE.Vector3( x, y, 0 ) );
 
 	}
 	// YOUR CODE HERE
 	// Write the code to generate minimum number of faces for the polygon.
+    for (var i = 0; i < (sides - 2); i++) {
+        geo.faces.push( new THREE.Face3( 0, (i+1), (i+2) ) );
+    }
 
 	// Return the geometry object
 	return geo;
@@ -86,18 +89,18 @@ function render() {
 }
 
 // Main body of the script
-
-
-try {
-	init();
-	showGrids();
-	var geo = PolygonGeometry(5);
-	var material = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.FrontSide } );
-	var mesh = new THREE.Mesh( geo, material );
-	scene.add( mesh );
-	addToDOM();
-	render();
-} catch(e) {
-	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
-	$('#container').append(errorReport+e);
+window.onload = function() {
+    try {
+    	init();
+    	showGrids();
+    	var geo = PolygonGeometry(1000);
+    	var material = new THREE.MeshBasicMaterial( { color: 0xff0000, side: THREE.FrontSide } );
+    	var mesh = new THREE.Mesh( geo, material );
+    	scene.add( mesh );
+    	addToDOM();
+    	render();
+    } catch(e) {
+    	var errorReport = "Your program encountered an unrecoverable error, can not draw on canvas. Error was:<br/><br/>";
+    	$('#container').append(errorReport+e);
+    }
 }
